@@ -19,6 +19,7 @@ const DEFAULT_START_OPTIONS: DeepRequired<StartOptions> = {
   quiet: false,
   waitUntilReady: true,
   onUnhandledRequest: 'bypass',
+  serviceWorkerFileMatcher: null as any,
 }
 
 export const createStart = (context: SetupWorkerInternalContext) => {
@@ -51,6 +52,7 @@ export const createStart = (context: SetupWorkerInternalContext) => {
         getWorkerInstance(
           resolvedOptions.serviceWorker.url,
           resolvedOptions.serviceWorker.options,
+          resolvedOptions.serviceWorkerFileMatcher,
         ),
       )
 
@@ -61,6 +63,12 @@ export const createStart = (context: SetupWorkerInternalContext) => {
       const [worker, registration] = instance
 
       if (!worker) {
+        if (resolvedOptions.serviceWorkerFileMatcher) {
+          console.warn(
+            `[MSW] worker.start() was provided a serviceWorkerFileMatcher predicate that failed to return a worker instance. Please verify your configuration.`,
+          )
+        }
+
         return null
       }
 
