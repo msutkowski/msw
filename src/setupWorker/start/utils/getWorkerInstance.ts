@@ -11,9 +11,9 @@ import { getAbsoluteWorkerUrl } from '../../../utils/url/getAbsoluteWorkerUrl'
  * When not found, registers a new Service Worker.
  */
 export const getWorkerInstance = async (
+  serviceWorkerFileMatcher: ServiceWorkerFileMatcher,
   url: string,
   options?: RegistrationOptions,
-  serviceWorkerFileMatcher?: ServiceWorkerFileMatcher,
 ): Promise<ServiceWorkerInstanceTuple | null> => {
   // Resolve the absolute Service Worker URL
   const absoluteWorkerUrl = getAbsoluteWorkerUrl(url)

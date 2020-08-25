@@ -37,7 +37,10 @@ export type ServiceWorkerInstanceTuple = [
   ServiceWorkerRegistration,
 ]
 
-export type ServiceWorkerFileMatcher = (scriptUrl: string) => boolean
+export type ServiceWorkerFileMatcher = (
+  scriptUrl: string,
+  absoluteWorkerUrl: string,
+) => boolean
 
 export type StartOptions = SharedOptions & {
   serviceWorker?: {
@@ -61,6 +64,7 @@ export type StartOptions = SharedOptions & {
    * A predicate function that allows you override the default strict matching behavior.
    * This is primarily useful in the scenario that you are using proxies you are using proxies
    * and having difficulty getting the origin and scriptURL to match due to port differences.
+   * Default: (scriptURL, absoluteWorkerUrl) => worker.scriptURL ==== absoluteWorkerUrl
    */
   serviceWorkerFileMatcher?: ServiceWorkerFileMatcher
 }

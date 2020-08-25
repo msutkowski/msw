@@ -9,8 +9,10 @@ const worker = setupWorker(
 // @ts-ignore
 window.__MSW_REGISTRATION__ = worker
   .start({
-    serviceWorkerFileMatcher: (scriptUrl) =>
-      scriptUrl.includes('some-bad-filename-that-does-not-exist.js'),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    serviceWorkerFileMatcher: (scriptURL, _absoluteWorkerUrl) => {
+      return scriptURL.includes('some-bad-filename-that-does-not-exist.js')
+    },
   })
   .then((reg) => {
     console.log('Registration Promise resolved')

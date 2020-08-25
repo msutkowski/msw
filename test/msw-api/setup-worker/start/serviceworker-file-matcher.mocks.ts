@@ -9,10 +9,11 @@ const worker = setupWorker(
 // @ts-ignore
 window.__MSW_REGISTRATION__ = worker
   .start({
-    serviceWorkerFileMatcher: (scriptUrl) =>
-      scriptUrl.includes('mockServiceWorker'),
+    // This is the default matching behavior if left unspecified
+    serviceWorkerFileMatcher: (scriptURL, absoluteWorkerUrl) =>
+      scriptURL === absoluteWorkerUrl,
   })
   .then((reg) => {
-    console.log('Registration Promise resolved', reg, reg.constructor.name)
+    console.log('Registration Promise resolved', reg)
     return reg.constructor.name
   })

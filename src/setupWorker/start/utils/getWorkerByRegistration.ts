@@ -7,7 +7,7 @@ import { ServiceWorkerFileMatcher } from '../../glossary'
 export const getWorkerByRegistration = (
   registration: ServiceWorkerRegistration,
   absoluteWorkerUrl: string,
-  serviceWorkerFileMatcher?: ServiceWorkerFileMatcher,
+  serviceWorkerFileMatcher: ServiceWorkerFileMatcher,
 ): ServiceWorker | null => {
   const allStates = [
     registration.active,
@@ -16,10 +16,7 @@ export const getWorkerByRegistration = (
   ]
   const existingStates = allStates.filter(Boolean) as ServiceWorker[]
   const mockWorker = existingStates.find((worker) => {
-    if (serviceWorkerFileMatcher) {
-      return serviceWorkerFileMatcher(worker.scriptURL)
-    }
-    return worker.scriptURL === absoluteWorkerUrl
+    return serviceWorkerFileMatcher(worker.scriptURL, absoluteWorkerUrl)
   })
 
   return mockWorker || null
